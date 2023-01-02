@@ -29,3 +29,9 @@ export interface APIResource {
   /** The URL of the referenced resource */
   url: string;
 }
+
+/** An ID to request a resource in the API */
+export interface APIResourceID {
+  /** The ID of the requested resource */
+  id: string | number;
+}
