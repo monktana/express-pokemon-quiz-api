@@ -31,7 +31,4 @@ export interface APIResource {
 }
 
 /** An ID to request a resource in the API */
-export interface APIResourceID {
-  /** The ID of the requested resource */
-  id: string | number;
-}
+export type APIResourceID = number | string;
