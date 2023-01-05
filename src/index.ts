@@ -1,3 +1,4 @@
+import { initialize } from "./lib";
 import { getMatchup } from "./routes/matchup/matchup";
 
 const express = require('express')
@@ -9,6 +10,8 @@ app.use(cors());
 
 app.get('/', getMatchup);
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+app.listen(port, async () => {
+  console.log(`initializing cache...`);
+  initialize();
+  console.log(`Example app listening on port ${port}`);
 });

@@ -1,2 +1,2 @@
-export const POKEMON_COUNT = 800;
-export const MOVE_COUNT = 300;
+export const POKEMON_COUNT = 150;
+export const MOVE_COUNT = 169;
