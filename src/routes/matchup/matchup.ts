@@ -13,7 +13,7 @@ export const getMatchup = async (_request: Request, response: Response, next: Ne
     const possibleMoves = (attacker.moves.map((move) => getCachedMove(move.move.name))).filter(Boolean);
     const move = possibleMoves[getRandomID(possibleMoves.length) - 1];
 
-    response.status(200).send({attacker: attacker.name, defender: defender.name, move: move?.name});
+    response.status(200).send({attacker, defender, move});
   } catch (error) {
     next(error);
   }
