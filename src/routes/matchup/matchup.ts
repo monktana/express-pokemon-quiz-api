@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 
 import { POKEMON_COUNT } from "../../constants";
-import { getCachedMove, getCachedPokemon } from "../../lib";
+import { getCachedMove, getCachedPokemon, getCachedType } from "../../lib";
 
 const getRandomID = (limit: number): number => Math.floor(Math.random() * limit + 1);
 
@@ -13,7 +13,24 @@ export const getMatchup = async (_request: Request, response: Response, next: Ne
     const possibleMoves = (attacker.moves.map((move) => getCachedMove(move.move.name))).filter(Boolean);
     const move = possibleMoves[getRandomID(possibleMoves.length) - 1];
 
-    response.status(200).send({attacker, defender, move});
+    response.status(200).send({
+      attacker: {
+        ...attacker,
+        types: attacker.types.map((type) => {
+          return getCachedType(type.type.name)
+        }, [])
+      },
+      defender: {
+        ...defender,
+        types: defender.types.map((type) => {
+          return getCachedType(type.type.name)
+        }, [])
+      },
+      move: {
+        ...move,
+        type: getCachedType(move?.type.name!)
+      }
+    });
   } catch (error) {
     next(error);
   }
