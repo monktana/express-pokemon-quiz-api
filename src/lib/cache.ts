@@ -49,14 +49,14 @@ export async function initialize() {
   console.log(`cached ${CACHE.moves.length} moves, ${CACHE.pokemon.length} pokemon, ${CACHE.types.length} types`);
 };
 
-export const getCachedMove = (id: APIResourceID) => CACHE.moves.find((move) => move.id === id || move.name === id);
+export const getCachedMove = (id: APIResourceID) => CACHE.moves.find((move) => move.id == id || move.name == id);
 export const cacheMove = (move: Move) => CACHE.moves.push(move);
 
-export const getCachedPokemon = (id: APIResourceID) => CACHE.pokemon.find((pokemon) => pokemon.id === id || pokemon.name === id);
+export const getCachedPokemon = (id: APIResourceID) => CACHE.pokemon.find((pokemon) => pokemon.id == id || pokemon.name == id);
 export const cachePokemon = (pokemon: Pokemon) => CACHE.pokemon.push(pokemon);
 
-export const getCachedSpecies = (id: APIResourceID) => CACHE.species.find((species) => species.id === id || species.name === id);
+export const getCachedSpecies = (id: APIResourceID) => CACHE.species.find((species) => species.id == id || species.name == id);
 export const cacheSpecies = (species: PokemonSpecies) => CACHE.species.push(species);
 
-export const getCachedType = (id: APIResourceID) => CACHE.types.find((type) => type.id === id || type.name === id);
+export const getCachedType = (id: APIResourceID) => CACHE.types.find((type) => type.id == id || type.name == id);
 export const cacheType = (type: Type) => CACHE.types.push(type);
