@@ -54,3 +54,16 @@ export interface Type {
   /** A list of moves that have this type */
   moves: NamedAPIResource[];
 }
+
+/**
+ * ## ShortType
+ * Short version of a Type. Only contains id and name information.
+ */
+export interface ShortType {
+  /** The identifier for this resource */
+  id: number;
+  /** The name for this resource */
+  name: string;
+  /** The name of this resource listed in different languages */
+  names: Name[];
+}

@@ -7,6 +7,7 @@ import type {
   VersionEncounterDetail,
   VersionGameIndex,
 } from '../Common';
+import { ShortType } from './type';
 
 /**
  * ## Pokemon
@@ -55,6 +56,25 @@ export interface Pokemon {
   types: PokemonType[];
   /** Data describing a Pokemon's types in a previous generation. */
   past_types: PokemonPastType[];
+}
+
+/**
+ * ## ShortPokemon
+ * Short version of Pokemon. Only contains base, sprite and type information.
+ */
+export interface ShortPokemon {
+  /** The identifier for this resource */
+  id: number;
+  /** The name for this resource */
+  name: string;
+  /** The name of this resource listed in different languages */
+  names: Name[];
+  /** A set of sprites used to depict this Pokémon in the game.
+   * A visual representation of the various sprites can be found at [PokeAPI/sprites](https://github.com/PokeAPI/sprites#sprites)
+   */
+  sprites: PokemonSprites;
+  /** A list of details showing types this Pokémon has */
+  types: ShortType[];
 }
 
 /**

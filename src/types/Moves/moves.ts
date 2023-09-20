@@ -6,7 +6,7 @@ import type {
   NamedAPIResource,
   VerboseEffect,
 } from '../Common';
-import type { AbilityEffectChange } from '../Pokemon';
+import type { AbilityEffectChange, ShortType } from '../Pokemon';
 
 /**
  * ## Move Target
@@ -250,4 +250,19 @@ export interface Move {
   type: NamedAPIResource;
   /** A list of Pokémons that learned this move */
   learned_by_pokemon: NamedAPIResource[];
+}
+
+/**
+ * ## ShortMove
+ * Short version of Move. Only contains id, name and type information.
+ */
+export interface ShortMove {
+  /** The identifier for this resource */
+  id: number;
+  /** The name for this resource */
+  name: string;
+  /** The name of this resource listed in different languages */
+  names: Name[];
+  /** The elemental type of this move */
+  type: ShortType;
 }
