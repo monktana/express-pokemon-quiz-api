@@ -1,29 +1,28 @@
-import { getCachedSpecies, getCachedType } from "../lib"
-import { Move, Pokemon, ShortMove, ShortPokemon, ShortType, Type } from "../types"
+import { Move, Pokemon, PokemonSpecies, ShortMove, ShortPokemon, ShortType, Type } from "../types"
 
-export const convertPokemonToShortPokemon = (pokemon: Pokemon) => {
+export const mapToShortPokemon = (pokemon: Pokemon, species: PokemonSpecies, types: Type[]): ShortPokemon => {
   return {
     id: pokemon.id,
     name: pokemon.name,
-    names: getCachedSpecies(pokemon.id)?.names,
+    names: species.names,
     sprites: pokemon.sprites,
-    types: pokemon.types.map((type) => convertTypeToShortType(getCachedType(type.type.name)!))
-  } as ShortPokemon
+    types: types.map(mapToShortType)
+  }
 };
 
-export const convertTypeToShortType = (type: Type) => {
-  return {
-    id: type.id,
-    name: type.name,
-    names: type.names
-  } as ShortType
-};
-
-export const convertMoveToShortMove = (move: Move) => {
+export const mapToShortMove = (move: Move, type: Type): ShortMove => {
   return {
     id: move.id,
     name: move.name,
     names: move.names,
-    type: convertTypeToShortType(getCachedType(move.type.name)!)
-  } as ShortMove
+    type: mapToShortType(type)
+  }
+};
+
+export const mapToShortType = (type: Type): ShortType => {
+  return {
+    id: type.id,
+    name: type.name,
+    names: type.names
+  }
 };
