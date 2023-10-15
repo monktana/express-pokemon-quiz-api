@@ -1,11 +1,14 @@
 import Axios from 'axios';
 import { API_URL } from '../config';
+import { setupCache } from 'axios-cache-interceptor';
 
-export const axios = Axios.create({
+const client = Axios.create({
   baseURL: API_URL
 });
 
-axios.interceptors.response.use(
+export const axios = setupCache(client);
+
+client.interceptors.response.use(
   (response) => {
     return response.data;
   },

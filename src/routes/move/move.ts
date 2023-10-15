@@ -1,12 +1,10 @@
 import type { NextFunction, Request, Response } from "express";
+import { getMove } from "../../api";
 
-import { getCachedMove } from "../../lib";
-import { convertMoveToShortMove } from "../../util";
-
-export const getMove = async (_request: Request, response: Response, next: NextFunction): Promise<void> => {
+export const move = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
   try {
-    const move = getCachedMove(_request.params['move']!)!;
-    response.status(200).send(convertMoveToShortMove(move));
+    const data = await getMove(request.params['move']!);
+    response.status(200).json(data);
   } catch (error) {
     next(error);
   }

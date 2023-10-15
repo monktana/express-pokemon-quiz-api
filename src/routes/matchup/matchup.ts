@@ -1,23 +1,34 @@
 import type { NextFunction, Request, Response } from "express";
 
 import { POKEMON_COUNT } from "../../constants";
-import { getCachedMove, getCachedPokemon } from "../../lib";
-import { convertMoveToShortMove, convertPokemonToShortPokemon } from "../../util";
+import { getRandomID, isAttackingMove } from "../../util";
+import { getMove, getPokemon, getSpecies, getType } from "../../api";
+import { mapToShortMove, mapToShortPokemon } from "../../util/convertTypes";
 
-const getRandomID = (limit: number): number => Math.floor(Math.random() * limit + 1);
-
-export const getMatchup = async (_request: Request, response: Response, next: NextFunction): Promise<void> => {
+export const matchup = async (_request: Request, response: Response, next: NextFunction): Promise<void> => {
   try {
-    const attacker = getCachedPokemon(getRandomID(POKEMON_COUNT))!;
-    const defender = getCachedPokemon(getRandomID(POKEMON_COUNT))!;
+    const [attacker, defender] = await Promise.all([
+      getPokemon(getRandomID(POKEMON_COUNT)),
+      getPokemon(getRandomID(POKEMON_COUNT))
+    ]);
 
-    const possibleMoves = (attacker.moves.map((move) => getCachedMove(move.move.name))).filter(Boolean);
-    const move = possibleMoves[getRandomID(possibleMoves.length) - 1]!;
+    const [attackerSpecies, attackerTypes, defenderSpecies, defenderTypes, moves] = await Promise.all([
+      getSpecies(attacker.id),
+      Promise.all(attacker.types.map((type) => getType(type.type.name))),
+      getSpecies(defender.id),
+      Promise.all(defender.types.map((type) => getType(type.type.name))),
+      Promise.all(attacker.moves.map((move) => getMove(move.move.name)))
+    ]);
+
+    const attackingMoves = moves.filter(isAttackingMove);
+    const move = attackingMoves[getRandomID(attackingMoves.length) - 1]!;
+
+    const moveType = await getType(move.type.name);
 
     response.status(200).send({
-      attacker: convertPokemonToShortPokemon(attacker),
-      defender: convertPokemonToShortPokemon(defender),
-      move: convertMoveToShortMove(move)
+      attacker: mapToShortPokemon(attacker, attackerSpecies, attackerTypes),
+      defender: mapToShortPokemon(defender, defenderSpecies, defenderTypes),
+      move: mapToShortMove(move, moveType)
     });
   } catch (error) {
     next(error);
