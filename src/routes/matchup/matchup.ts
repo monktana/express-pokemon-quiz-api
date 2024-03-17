@@ -1,9 +1,14 @@
 import type { NextFunction, Request, Response } from "express";
 
-import { POKEMON_COUNT } from "../../constants";
-import { getRandomID, isAttackingMove } from "../../util";
 import { getMove, getPokemon, getSpecies, getType } from "../../api";
-import { mapToShortMove, mapToShortPokemon } from "../../util/convertTypes";
+import { POKEMON_COUNT } from "../../constants";
+import {
+  getRandomID,
+  isAttackingMove,
+  mapToShortMove,
+  mapToShortPokemon,
+} from "../../util";
+import { getAttackEffectiveness } from "../../util/calculateEffectiveness";
 
 export const matchup = async (_request: Request, response: Response, next: NextFunction): Promise<void> => {
   try {
@@ -28,7 +33,8 @@ export const matchup = async (_request: Request, response: Response, next: NextF
     response.status(200).send({
       attacker: mapToShortPokemon(attacker, attackerSpecies, attackerTypes),
       defender: mapToShortPokemon(defender, defenderSpecies, defenderTypes),
-      move: mapToShortMove(move, moveType)
+      move: mapToShortMove(move, moveType),
+      effectiveness: getAttackEffectiveness(move, defender)
     });
   } catch (error) {
     next(error);

@@ -1,4 +1,4 @@
-import { axios } from "../lib/axios"
+import { axios } from "../lib"
 import type { APIResourceID, Pokemon } from "../types";
 
 export const getPokemon = async (id: APIResourceID): Promise<Pokemon> => {
